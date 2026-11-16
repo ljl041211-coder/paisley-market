@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* Market colours are supplied by themeStyle. */
+@theme inline {
+  /* San Francisco on Apple devices; Inter (served from this site) elsewhere. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-tint: var(--tint-text);
+  --color-ground: var(--ground);
+  --color-on-ground: var(--on-ground);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --color-snow: #f2f2f7; /* grouped background */
+  --color-ink: #1c1c1e; /* primary label */
+  --color-secondary: #636366; /* secondary label */
+  --color-line: #d1d1d6; /* separator */
+  --color-fill: #7676801f; /* text field and control fill */
+  --color-danger: #d70015;
+  --color-success: #248a3d;
+}
+
+:root {
+  --brand: #0066cc;
+  --on-brand: #ffffff;
+  --tint-text: #0066cc;
+  --ground: #1c1c1e;
+  --on-ground: #ffffff;
+  --accent: #ffd60a;
+  --on-accent: #1c1c1e;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-snow font-sans text-ink antialiased;
+    font-size: 1.0625rem; /* 17px, the iOS body size */
+    line-height: 1.47;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--tint-text);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--tint-text);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center px-5 text-center font-semibold;
+    min-height: 50px;
+    border-radius: 14px;
+    font-size: 1.0625rem;
+    text-decoration: none;
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
+  }
+  .btn:hover {
+    opacity: 0.85;
+    text-decoration: none;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-brand {
+    background: var(--brand);
+    color: var(--on-brand);
+  }
+  .btn-accent {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn-tinted {
+    color: var(--tint-text);
+    background: color-mix(in srgb, currentColor 13%, transparent);
+  }
+  .btn-glass {
+    color: inherit;
+    background: color-mix(in srgb, currentColor 18%, transparent);
+  }
+  .btn-small {
+    min-height: 34px;
+    border-radius: 999px;
+    @apply px-4 text-[0.9375rem];
+  }
+
+  .label {
+    @apply mb-1.5 block text-[0.9375rem] font-semibold;
+  }
+  .hint {
+    @apply mb-1.5 block text-[0.8125rem] text-secondary;
+  }
+  .input {
+    @apply block w-full bg-fill px-3.5 text-ink;
+    min-height: 46px;
+    padding-block: 10px;
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+    font-size: 1.0625rem;
+  }
+  .input::placeholder {
+    color: #8e8e93;
+  }
+  .input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--tint-text);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--tint-text) 22%, transparent);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  select.input {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='18' viewBox='0 0 12 18' fill='none' stroke='%23636366' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5 6 2.5l4 4M2 11.5l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+  }
+  .error-text {
+    @apply mb-1.5 block text-[0.8125rem] font-semibold text-danger;
+  }
+
+  /* The iOS on/off switch, drawn on a real checkbox so it stays accessible. */
+  .switch {
+    appearance: none;
+    position: relative;
+    flex-shrink: 0;
+    width: 51px;
+    height: 31px;
+    border-radius: 999px;
+    background: #78788052;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .switch::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow:
+      0 3px 8px #00000026,
+      0 1px 1px #00000029;
+    transition: transform 200ms ease;
+  }
+  .switch:checked {
+    background: #34c759;
+  }
+  .switch:checked::before {
+    transform: translateX(20px);
+  }
+  .switch[aria-invalid="true"] {
+    box-shadow: 0 0 0 2px var(--color-danger);
+  }
+
+  .panel {
+    @apply bg-white p-5;
+    border-radius: 20px;
+  }
+  .group-list {
+    @apply overflow-hidden bg-white;
+    border-radius: 20px;
+  }
+  .group-list > * + * {
+    border-top: 0.5px solid var(--color-line);
+  }
+  .group-row {
+    @apply flex items-center justify-between gap-4 px-5 py-3.5 text-ink;
+    min-height: 52px;
+  }
+  a.group-row:hover {
+    background: #0000000a;
+    text-decoration: none;
+  }
+
+  .segmented {
+    @apply inline-flex max-w-full gap-0.5 overflow-x-auto p-0.5;
+    border-radius: 11px;
+    background: #7676801f;
+  }
+  .segment {
+    @apply whitespace-nowrap px-3.5 py-1.5 text-[0.9375rem] font-medium text-ink;
+    border-radius: 9px;
+  }
+  .segment:hover {
+    text-decoration: none;
+  }
+  .segment[aria-current] {
+    @apply bg-white font-semibold;
+    box-shadow:
+      0 3px 8px #0000001f,
+      0 1px 1px #0000000a;
+  }
+
+  .notice {
+    @apply bg-white p-4 font-semibold;
+    border-radius: 16px;
+    border-left: 5px solid var(--color-success);
+  }
+  .notice-danger {
+    border-left-color: var(--color-danger);
+    color: var(--color-danger);
+  }
+
+  .bar {
+    background: #f9f9f9c7;
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
